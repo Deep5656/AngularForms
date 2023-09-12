@@ -1,0 +1,117 @@
+<div class="form">
+  <h2 id="registration">Template driven Form</h2>
+  <form (ngSubmit)="onSubmit()" #myForm="ngForm">
+    <div ngModelGroup="personalDetails" #personalDetail="ngModelGroup">
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" placeholder="your first name.." name="firstName" ngModel required #fname="ngModel">
+      <div>
+        <small *ngIf="fname.invalid && fname.touched">first name is required !!</small>
+        <!-- <p>you entered {{firstName}}</p> -->
+      </div>
+
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" placeholder="your last name.." name="lastName" ngModel required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="your email.." name="email" ngModel required email>
+
+      <small *ngIf="personalDetail.invalid && personalDetail.touched">Some error</small>
+      <button (click)="setDefaultValues()">Set Default Value</button>
+    </div>
+    <label for="country">Country</label>
+    <select name="country" id="country" name="country" [ngModel]="defaultCountry">
+      <option value="India">India</option>
+      <option value="USA">USA</option>
+      <option value="Russia">Russia</option>
+    </select>
+
+    <label for="gender">Gender:</label>
+    <span *ngFor="let gen of gender">
+      <input type="radio" id="{{gen.id}}" value="{{gen.value}}" name="gender" [ngModel]="defaultGender">
+      <label for="male">{{gen.value}}</label>
+    </span>
+    <!-- <input type="radio" id="female" value="female" name="gender" ngModel>
+    <label for="female">Female</label>
+    <input type="radio" id="other" value="other" name="gender" ngModel>
+    <label for="female">Other</label> -->
+    <br><br>
+    <label for="hobbies">Hobbies<i>(optional)</i></label>
+    <div class="form-inline">
+      <label><input type="checkbox" value="sports" name="hobbies" ngModel>Sports</label>
+      <label><input type="checkbox" value="movies" name="hobbies" ngModel>Movies</label>
+      <label><input type="checkbox" value="music" name="hobbies" ngModel>Music</label>
+    </div>
+    <input type="submit" value="submit" id="btn" [disabled]="!myForm.valid">
+  </form>
+</div>
+
+<div class="form-data">
+  <h3>Form Data</h3>
+  <p>First name:<b>{{firstName}}</b></p>
+  <p>Last name:<b>{{lastName}}</b></p>
+  <p>email:<b>{{email}}</b></p>
+  <p>Gender:<b>{{defaultGender}}</b></p>
+  <p>Country:<b>{{defaultCountry}}</b></p>
+  <!-- <p>hobbies:<b>{{hobbies}}</b></p> -->
+</div>
+
+<!-- .......................reactive form.......................... -->
+<!-- .......................reactive form.......................... -->
+<!-- .......................reactive form.......................... -->
+<!-- .......................reactive form.......................... -->
+<!-- .......................reactive form.......................... -->
+<!-- .......................reactive form.......................... -->
+
+<div class="form">
+  <h2 id="registration">Reactive Form</h2>
+  <form [formGroup]="reactiveForm" (click)="onSubmitForm()">
+
+    <div formGroupName="myDetails">
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" placeholder="your first name.." formControlName="firstname">
+  
+  
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" placeholder="your last name.." formControlName="lastname">
+  
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="your email.." formControlName="Email">
+      <small *ngIf="!reactiveForm.get('myDetails.Email').valid && reactiveForm.get('myDetails.Email').touched">email you entered is not a valid email</small>
+    </div>
+    
+
+
+    <label for="country">Country</label>
+    <select name="country" id="country" formControlName="cntry">
+      <option value="India">India</option>
+      <option value="USA">USA</option>
+      <option value="Russia">Russia</option>
+    </select>
+
+    <label for="gender">Gender:</label>
+
+    <input type="radio" id="id" value="male" formControlName="gender">
+    <label for="male">Male</label>
+    <input type="radio" id="female" value="female" formControlName="gender">
+    <label for="female">Female</label>
+    <input type="radio" id="other" value="other" formControlName="gender">
+    <label for="female">Other</label>
+    <br><br>
+    <label for="hobbies">Hobbies<i>(optional)</i></label>
+    <div class="form-inline">
+      <label><input type="checkbox" value="sports" formControlName="hobbies">Sports</label>
+      <label><input type="checkbox" value="movies" formControlName="hobbies">Movies</label>
+      <label><input type="checkbox" value="music" formControlName="hobbies">Music</label>
+    </div>
+
+    <div formArrayName="skills">
+      <ng-container *ngFor="let skill of reactiveForm.get('skills')['controls'];index as i">
+        <input type="text" placeholder="add skills..." formControlName="{{i}}">
+      </ng-container>
+    </div>
+
+    <button (click)="addSkills()">+ Add Skill</button>
+
+    <input type="submit" value="submit" id="btn">
+  </form>
+</div>
